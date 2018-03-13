@@ -1,11 +1,10 @@
 # To pin a specific version of nixpkgs, change the nixpkgsSrc argument.
-{ nixpkgsSrc ? <nixpkgs>
+{ lib ? (import nixpkgsSrc {}).lib
+, nixpkgsSrc ? <nixpkgs>
 , supportedSystems ? [ "x86_64-linux" "i686-linux" /* "x86_64-darwin" */ ]
 }:
 
 let
-  lib = (import nixpkgsSrc {}).lib;
-
   # Make an attribute set for each system, the builder is then specialized to
   # use the selected system.
   forEachSystem = systems: builder /* system -> stdenv -> pkgs */:

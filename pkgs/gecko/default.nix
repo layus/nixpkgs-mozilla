@@ -1,5 +1,5 @@
-{ geckoSrc ? null, lib
-, stdenv, fetchFromGitHub, pythonFull, which, autoconf213
+{ geckoSrc ? (fetchFromGitHub (importJSON ./source.json))
+, lib , stdenv, fetchFromGitHub, pythonFull, which, autoconf213
 , perl, unzip, zip, gnumake, yasm, pkgconfig, xlibs, gnome2, pango, freetype, fontconfig, cairo
 , dbus, dbus_glib, alsaLib, libpulseaudio, gstreamer, gst_plugins_base
 , gtk3, glib, gobjectIntrospection, gdk_pixbuf, atk, gtk2
@@ -21,13 +21,7 @@ let
 
   # Gecko sources are huge, we do not want to import them in the nix-store when
   # we use this expression for making a build environment.
-  src =
-    if inNixShell then
-      null
-    else if geckoSrc == null then
-      fetchFromGitHub (importJSON ./source.json)
-    else
-      geckoSrc;
+  src = if inNixShell then null else geckoSrc;
 
   version = "HEAD"; # XXX: builtins.readFile "${src}/browser/config/version.txt";
 

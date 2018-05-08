@@ -130,7 +130,7 @@ let
     ac_add_options --disable-gstreamer
     ac_add_options --disable-webrtc
     ac_add_options --disable-crashreporter
-    ac_add_options --enable-debug
+    #ac_add_options --enable-debug
     ac_add_options --enable-profiling
     export BINDGEN_CFLAGS="-cxx-isystem $cxxLib -isystem $archLib"
     export CC="${stdenv.cc}/bin/cc"

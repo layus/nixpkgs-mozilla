@@ -127,7 +127,7 @@ let
     ac_add_options --enable-alsa
     ac_add_options --enable-pulseaudio
     ac_add_options --disable-ffmpeg
-    #ac_add_options --disable-gstreamer
+    ac_add_options --disable-gstreamer
     ac_add_options --disable-webrtc
     ac_add_options --disable-crashreporter
     #ac_add_options --enable-debug

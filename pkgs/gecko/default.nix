@@ -12,8 +12,6 @@
 , llvmPackages
 , ccache
 , inNixShell ? lib.inNixShell
-, wrapGAppsHook
-, icu, nss, nspr, libjpeg, zlib, bzip2, libpng, libvpx, hunspell, pixman, sqlite
 }:
 
 let
@@ -61,7 +59,6 @@ let
 
     gtk3 glib gobjectIntrospection gdk_pixbuf atk
     gtk2 gnome2.GConf
-    wrapGAppsHook
 
     rust
 
@@ -84,9 +81,6 @@ let
     # Useful for getting notification at the end of the build.
     libnotify
 
-    # To avoid building them here
-    icu nss nspr libjpeg zlib bzip2 libpng libvpx hunspell pixman sqlite 
-
   ] ++ optionals inNixShell [
     valgrind gdb rr ccache
   ];
@@ -97,41 +91,8 @@ let
 
     cat - > $MOZCONFIG <<EOF
     mk_add_options AUTOCONF=${autoconf213}/bin/autoconf
-    ac_add_options --with-libclang-path=${llvmPackages.libclang}/lib
+    ac_add_options --with-libclang-path=${llvmPackages.clang.cc.lib}/lib
     ac_add_options --with-clang-path=${llvmPackages.clang}/bin/clang
-    ac_add_options --enable-application=browser
-    ac_add_options --with-system-jpeg
-    ac_add_options --with-system-zlib
-    ac_add_options --with-system-bz2
-    ac_add_options --with-system-libevent
-    ac_add_options --with-system-libvpx
-    ac_add_options --with-system-png
-    ac_add_options --with-system-icu
-    ac_add_options --enable-system-ffi
-    ac_add_options --enable-system-hunspell
-    ac_add_options --enable-system-pixman
-    ac_add_options --enable-system-sqlite
-    #ac_add_options --enable-system-cairo
-    ac_add_options --enable-startup-notification
-    #ac_add_options --enable-content-sandbox # TODO: probably enable after 54
-    ac_add_options --disable-tests
-    ac_add_options --disable-necko-wifi
-    ac_add_options --disable-updater
-    ac_add_options --enable-jemalloc
-    ac_add_options --disable-maintenance-service
-    ac_add_options --disable-gconf
-    ac_add_options --enable-default-toolkit=cairo-gtk3
-    #ac_add_options --enable-webrender=build
-    ac_add_options --with-system-nss
-    ac_add_options --with-system-nspr
-    ac_add_options --enable-alsa
-    ac_add_options --enable-pulseaudio
-    ac_add_options --disable-ffmpeg
-    ac_add_options --disable-gstreamer
-    ac_add_options --disable-webrtc
-    ac_add_options --disable-crashreporter"
-    ac_add_options --enable-debug
-    ac_add_options --enable-profiling
     export BINDGEN_CFLAGS="-cxx-isystem $cxxLib -isystem $archLib"
     export CC="${stdenv.cc}/bin/cc"
     export CXX="${stdenv.cc}/bin/c++"
@@ -139,7 +100,6 @@ let
   '';
 
   shellHook = ''
-    set -x
     export MOZCONFIG=$PWD/.mozconfig.nix-shell
     export MOZBUILD_STATE_PATH=$PWD/.mozbuild
     export CC="${stdenv.cc}/bin/cc";

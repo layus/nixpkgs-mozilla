@@ -13,7 +13,7 @@
 , ccache
 , inNixShell ? lib.inNixShell
 , wrapGAppsHook
-, icu, nss, nspr, libjpeg, zlib, bzip2, libpng, libvpx, hunspell, pixman, sqlite
+, icu, nss, nspr, libjpeg, zlib, bzip2, libpng, libvpx, hunspell, pixman, sqlite, gstreamer, gst-plugins-base
 }:
 
 let
@@ -85,7 +85,7 @@ let
     libnotify
 
     # To avoid building them here
-    icu nss nspr libjpeg zlib bzip2 libpng libvpx hunspell pixman sqlite
+    icu nss nspr libjpeg zlib bzip2 libpng libvpx hunspell pixman sqlite gstreamer gst-plugins-base
 
   ] ++ optionals inNixShell [
     valgrind gdb rr ccache

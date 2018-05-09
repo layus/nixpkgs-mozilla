@@ -13,7 +13,7 @@
 , ccache
 , inNixShell ? lib.inNixShell
 , wrapGAppsHook
-, icu, nss, nspr, libjpeg, zlib, bzip2, libpng, libvpx, hunspell, pixman, sqlite, gstreamer, gst-plugins-base
+, icu, nss, nspr, libjpeg, zlib, bzip2, libpng, libvpx, hunspell, pixman, sqlite
 }:
 
 let
@@ -85,7 +85,7 @@ let
     libnotify
 
     # To avoid building them here
-    icu nss nspr libjpeg zlib bzip2 libpng libvpx hunspell pixman sqlite gstreamer gst-plugins-base
+    icu nss nspr libjpeg zlib bzip2 libpng libvpx hunspell pixman sqlite 
 
   ] ++ optionals inNixShell [
     valgrind gdb rr ccache
@@ -126,7 +126,7 @@ let
     ac_add_options --with-system-nspr
     ac_add_options --enable-alsa
     ac_add_options --enable-pulseaudio
-    ac_add_options --enable-ffmpeg
+    ac_add_options --disable-ffmpeg
     #ac_add_options --disable-gstreamer
     ac_add_options --disable-webrtc
     ac_add_options --disable-crashreporter
